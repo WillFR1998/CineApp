@@ -335,12 +335,12 @@ public class Cine_App extends javax.swing.JFrame {
         txtFilmacion.setText("");
         txtEstreno.setText("");
         txtPresupuesto.setText("");
-        JOptionPane.showMessageDialog(null, "modificado con exito");
+        JOptionPane.showMessageDialog(null, "Agregado con exito");
         try {
             llenarTabla();
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "no logra mostrar");
+            JOptionPane.showMessageDialog(null, "no logra agregar");
         }
 
 
@@ -388,12 +388,12 @@ public class Cine_App extends javax.swing.JFrame {
             if (decide == 0) {
                 try {
                     ctp.Eliminar();
-                    System.out.println("Elimino el estudiante");
+                    System.out.println("Elimino la pelicula");
                     limpiarTabla();
                     llenarTabla();
                 } catch (Exception ex) {
                     java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println("No pudo eliminar el estudiante");
+                    System.out.println("No pudo eliminar la pelicula");
                 }
 
             }
@@ -413,7 +413,7 @@ public class Cine_App extends javax.swing.JFrame {
 
         try {
             ctp.BuscarPelicula();
-            System.out.println("Nombre de pelicula: " + ctp.getNombre());
+            JOptionPane.showMessageDialog(null,"Nombre de pelicula: " + ctp.getNombre());
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
         }
