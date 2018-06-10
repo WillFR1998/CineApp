@@ -17,6 +17,8 @@ public class peliculas {
     private String anyo_filmacion;
     private String estreno;
     private double presupuesto;
+    
+    
     public peliculas(int id_peliculas){
         setId_peliculas(id_peliculas);
     }
@@ -31,6 +33,10 @@ public class peliculas {
      setAnyo_filmacion(anyo_filmacion);
      setEstreno(estreno);
      setPresupuesto(presupuesto);
+    }
+
+    peliculas(String nombre, String anyo_filmacion, String estreno, double presupuesto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     /**
      * @return the id_peliculas
@@ -131,7 +137,8 @@ public class peliculas {
      
      }
     public void Modificar() throws Exception{
-         try {
+         
+        try {
          cn.conectar();
          cn.UID("UPDATE peliculas set nombre=\""+getNombre()+"\", anyo_filmacion=\""+getAnyo_filmacion()+"\" ,estreno=\""+getEstreno()+"\" ,presupuesto=\""+getPresupuesto()+"\" where id_peliculas="+getId_peliculas()+"; ");
          cn.desconectar();   

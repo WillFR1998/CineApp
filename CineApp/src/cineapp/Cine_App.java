@@ -129,6 +129,11 @@ public class Cine_App extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbnMuestraPeliculas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbnMuestraPeliculasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbnMuestraPeliculas);
 
         btnAgregar.setText("Agregar");
@@ -347,13 +352,14 @@ public class Cine_App extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        int id_peliculas = 0;
-        String nombre = txtNombre.getText().toUpperCase();
-        String anyo_filmacion = txtFilmacion.getText().toUpperCase();
-        String estreno = txtEstreno.getText().toUpperCase();
-        double presupuesto = Double.parseDouble(txtPresupuesto.getText().toUpperCase());
+        TableModel tablemodel1 = tbnMuestraPeliculas.getModel();
+        peliculas ctp = new peliculas(Integer.parseInt(modeloPeliculas.getValueAt(tbnMuestraPeliculas.getSelectedRow(), 0).toString()));
+        ctp.setAnyo_filmacion(txtFilmacion.getText());
+        ctp.setEstreno(txtEstreno.getText());
+        ctp.setNombre(txtNombre.getText());
+        ctp.setPresupuesto(Integer.parseInt(txtPresupuesto.getText()));
 
-        peliculas ctp = new peliculas(id_peliculas, nombre, anyo_filmacion, estreno, presupuesto);
+       
         try {
             ctp.Modificar();
         } catch (Exception ex) {
@@ -363,23 +369,22 @@ public class Cine_App extends javax.swing.JFrame {
         txtFilmacion.setText("");
         txtEstreno.setText("");
         txtPresupuesto.setText("");
-        JOptionPane.showMessageDialog(null, "modificado con exito");
+        JOptionPane.showMessageDialog(null, "Modificado con exito");
         try {
             llenarTabla();
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "no logra mostrar");
+            JOptionPane.showMessageDialog(null, "no logra modificar");
         }
 
 
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-       
-        
+
         TableModel tablemodel1 = tbnMuestraPeliculas.getModel();
         try {
-            peliculas ctp =new peliculas(Integer.parseInt(modeloPeliculas.getValueAt(tbnMuestraPeliculas.getSelectedRow(), 0).toString())) ;
+            peliculas ctp = new peliculas(Integer.parseInt(modeloPeliculas.getValueAt(tbnMuestraPeliculas.getSelectedRow(), 0).toString()));
             System.out.println("lo hizo1");
 
             ResultSet rs;
@@ -413,7 +418,7 @@ public class Cine_App extends javax.swing.JFrame {
 
         try {
             ctp.BuscarPelicula();
-            JOptionPane.showMessageDialog(null,"Nombre de pelicula: " + ctp.getNombre());
+            JOptionPane.showMessageDialog(null, "Nombre de pelicula: " + ctp.getNombre());
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
         }
@@ -421,7 +426,7 @@ public class Cine_App extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMouseClicked
-         try {
+        try {
             llenarTabla();
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
@@ -430,6 +435,10 @@ public class Cine_App extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnMostrarMouseClicked
+
+    private void tbnMuestraPeliculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbnMuestraPeliculasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbnMuestraPeliculasMouseClicked
 
     /**
      * @param args the command line arguments
