@@ -83,10 +83,10 @@ public class genero {
      
      
    
-     public void Modificar() throws Exception{
+     public void ModificarGenero() throws Exception{
          try {
          cn.conectar();
-         cn.UID("UPDATE genero set nombre=\""+getNombre()+"; ");
+         cn.UID("UPDATE genero set nombre=\""+getNombre()+"\" where id_genero="+getId_genero()+"; ");
          cn.desconectar();   
          } catch (Exception e) {
              System.out.println("Error: "+e.getMessage());

@@ -339,6 +339,11 @@ public class Cine_App extends javax.swing.JFrame {
         });
 
         btnModificar2.setText("Modificar");
+        btnModificar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModificar2MouseClicked(evt);
+            }
+        });
 
         btnBuscar2.setText("Buscar");
         btnBuscar2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -662,6 +667,27 @@ public class Cine_App extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnBuscar2MouseClicked
+
+    private void btnModificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificar2MouseClicked
+        TableModel tablemodel2 = tbnMuestraGenero.getModel();
+        genero ctp = new genero(Integer.parseInt(modeloGenero.getValueAt(tbnMuestraGenero.getSelectedRow(), 0).toString()));
+        ctp.setNombre(txtNombreGenero.getText());
+        try {
+            ctp.ModificarGenero();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txtGenero.setText("");
+        txtNombreGenero.setText("");
+       
+        JOptionPane.showMessageDialog(null, "Modificado con exito");
+        try {
+            llenarTablaGenero();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "no logra modificar");
+        }
+    }//GEN-LAST:event_btnModificar2MouseClicked
 
     /**
      * @param args the command line arguments
