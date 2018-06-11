@@ -24,24 +24,35 @@ public class Cine_App extends javax.swing.JFrame {
 
     JTableHeader tHeadPeliculas;
     JTableHeader tHeadGenero;
+    JTableHeader tHeadDirector;
+    
     DefaultTableModel modeloPeliculas = new DefaultTableModel();
-     DefaultTableModel modeloGenero = new DefaultTableModel();
+    DefaultTableModel modeloGenero = new DefaultTableModel();
+    DefaultTableModel modeloDirector=new DefaultTableModel();
 
     public Cine_App() throws Exception {
         initComponents();
         tHeadPeliculas = tbnMuestraPeliculas.getTableHeader();
         modeloPeliculas.addColumn("ID Pelicula");
         modeloPeliculas.addColumn("Nombre");
-        
+
         modeloPeliculas.addColumn("Año de Filmación");
         modeloPeliculas.addColumn("Estreno");
         modeloPeliculas.addColumn("Presupuesto");
         tbnMuestraPeliculas.setModel(modeloPeliculas);
-        
+
         tHeadGenero = tbnMuestraGenero.getTableHeader();
         modeloGenero.addColumn("ID Género");
         modeloGenero.addColumn("Nombre del Género");
         tbnMuestraGenero.setModel(modeloGenero);
+        
+        tHeadDirector=tbnMuestraDirector.getTableHeader();
+        modeloDirector.addColumn("ID Director");
+        modeloDirector.addColumn("Nombre");
+        modeloDirector.addColumn("Apellido");
+        modeloDirector.addColumn("Nacimiento");
+        modeloDirector.addColumn("Nacionalidad");
+        tbnMuestraDirector.setModel(modeloDirector);
 
     }
 
@@ -69,6 +80,7 @@ public class Cine_App extends javax.swing.JFrame {
             tbnMuestraPeliculas.setModel(modeloPeliculas);
         }
     }
+
     public final void llenarTablaGenero() throws Exception {
         genero gen = new genero();
         limpiarTabla2();
@@ -81,7 +93,7 @@ public class Cine_App extends javax.swing.JFrame {
                 while (rs.next()) {
                     int id_genero = rs.getInt("id_genero");
                     String Nombre = rs.getString("nombre");
-                    
+
                     modeloGenero.addRow(new String[]{Integer.toString(id_genero), Nombre});
 
                 }
@@ -91,7 +103,31 @@ public class Cine_App extends javax.swing.JFrame {
             tbnMuestraGenero.setModel(modeloGenero);
         }
     }
-    
+    public final void llenarTablaDirector() throws Exception {
+        director es = new director();
+        limpiarTabla3();
+        ResultSet rs = null;
+        rs = es.Obtener();
+        if (!rs.isBeforeFirst()) {
+            System.out.println("No existe");
+        } else {
+            try {
+                while (rs.next()) {
+                    int id_director = rs.getInt("id_director");
+                    String Nombre = rs.getString("nombre");
+                    String Apellido = rs.getString("apellido");
+                    String Nacimiento = rs.getString("nacimiento");
+                     String Nacionalidad = rs.getString("nacionalidad");
+                   
+                    modeloDirector.addRow(new String[]{Integer.toString(id_director), Nombre, Apellido, Nacimiento, Nacionalidad});
+
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            tbnMuestraDirector.setModel(modeloDirector);
+        }
+    }
 
     public void limpiarTabla() {
         for (int i = 0; i < tbnMuestraPeliculas.getRowCount(); i++) {
@@ -99,10 +135,17 @@ public class Cine_App extends javax.swing.JFrame {
             i -= 1;
         }
     }
+
     public void limpiarTabla2() {
         for (int a = 0; a < tbnMuestraGenero.getRowCount(); a++) {
             modeloGenero.removeRow(a);
             a -= 1;
+        }
+    }
+     public void limpiarTabla3() {
+        for (int b = 0; b < tbnMuestraDirector.getRowCount(); b++) {
+            modeloDirector.removeRow(b);
+            b -= 1;
         }
     }
 
@@ -149,6 +192,23 @@ public class Cine_App extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbnMuestraGenero = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        txtDirector = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtNombreDirector = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtApellidoDirector = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtNacimiento = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtNacionalidad = new javax.swing.JTextField();
+        btnAgregar3 = new javax.swing.JButton();
+        btnEliminar3 = new javax.swing.JButton();
+        btnModificar3 = new javax.swing.JButton();
+        btnBuscar3 = new javax.swing.JButton();
+        btnMostrar3 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbnMuestraDirector = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -431,20 +491,123 @@ public class Cine_App extends javax.swing.JFrame {
                 .addComponent(btnMostrar2)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Generos", jPanel2);
+
+        jLabel10.setText("ID de Director: ");
+
+        jLabel11.setText("Nombre del Director : ");
+
+        jLabel12.setText("Apellido del Director: ");
+
+        jLabel13.setText("Nacimiento: ");
+
+        jLabel14.setText("Nacionalidad: ");
+
+        btnAgregar3.setText("Agregar");
+        btnAgregar3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregar3MouseClicked(evt);
+            }
+        });
+
+        btnEliminar3.setText("Eliminar");
+
+        btnModificar3.setText("Modificar");
+
+        btnBuscar3.setText("Buscar");
+
+        btnMostrar3.setText("Mostrar");
+        btnMostrar3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMostrar3MouseClicked(evt);
+            }
+        });
+
+        tbnMuestraDirector.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tbnMuestraDirector);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 639, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreDirector)
+                    .addComponent(txtApellidoDirector, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(txtNacimiento)
+                    .addComponent(txtNacionalidad))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(144, 144, 144)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAgregar3)
+                            .addComponent(btnModificar3))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEliminar3)
+                            .addComponent(btnBuscar3))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMostrar3)
+                        .addGap(137, 137, 137))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregar3)
+                    .addComponent(btnEliminar3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtNombreDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar3)
+                    .addComponent(btnBuscar3))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(txtApellidoDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMostrar3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txtNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(txtNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("Directores", jPanel3);
@@ -510,7 +673,6 @@ public class Cine_App extends javax.swing.JFrame {
         ctp.setNombre(txtNombre.getText());
         ctp.setPresupuesto(Integer.parseInt(txtPresupuesto.getText()));
 
-       
         try {
             ctp.Modificar();
         } catch (Exception ex) {
@@ -592,7 +754,7 @@ public class Cine_App extends javax.swing.JFrame {
     }//GEN-LAST:event_tbnMuestraPeliculasMouseClicked
 
     private void btnMostrar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrar2MouseClicked
- try {
+        try {
             llenarTablaGenero();
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
@@ -603,9 +765,9 @@ public class Cine_App extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrar2MouseClicked
 
     private void btnAgregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregar2MouseClicked
-         int id_genero = 0;
+        int id_genero = 0;
         String nombre = txtNombreGenero.getText().toUpperCase();
-        
+
         genero gn = new genero();
         gn.setNombre(nombre);
         try {
@@ -615,7 +777,7 @@ public class Cine_App extends javax.swing.JFrame {
         }
         txtNombreGenero.setText("");
         txtId.setText("");
-        
+
         JOptionPane.showMessageDialog(null, "Agregado con exito");
         try {
             llenarTablaGenero();
@@ -626,7 +788,7 @@ public class Cine_App extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregar2MouseClicked
 
     private void btnEliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminar2MouseClicked
-       TableModel tablemodel1 = tbnMuestraPeliculas.getModel();
+        TableModel tablemodel1 = tbnMuestraPeliculas.getModel();
         try {
             genero ctp = new genero(Integer.parseInt(modeloGenero.getValueAt(tbnMuestraGenero.getSelectedRow(), 0).toString()));
             System.out.println("lo hizo1");
@@ -665,7 +827,6 @@ public class Cine_App extends javax.swing.JFrame {
         }
 
 
-
     }//GEN-LAST:event_btnBuscar2MouseClicked
 
     private void btnModificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificar2MouseClicked
@@ -679,7 +840,7 @@ public class Cine_App extends javax.swing.JFrame {
         }
         txtGenero.setText("");
         txtNombreGenero.setText("");
-       
+
         JOptionPane.showMessageDialog(null, "Modificado con exito");
         try {
             llenarTablaGenero();
@@ -688,6 +849,44 @@ public class Cine_App extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "no logra modificar");
         }
     }//GEN-LAST:event_btnModificar2MouseClicked
+
+    private void btnMostrar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrar3MouseClicked
+        try {
+            llenarTablaDirector();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No logra llenar la tabla");
+        }
+    }//GEN-LAST:event_btnMostrar3MouseClicked
+
+    private void btnAgregar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregar3MouseClicked
+         int id_director = 0;
+        String nombre = txtNombreDirector.getText().toUpperCase();
+        String apellido=txtApellidoDirector.getText().toUpperCase();
+        String nacimiento=txtNacimiento.getText().toUpperCase();
+        String nacionalidad=txtNacionalidad.getText().toUpperCase();
+
+        director dr = new director();
+        dr.setNombre(nombre);
+        try {
+            dr.AgregarDirector();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txtNombreDirector.setText("");
+        txtApellidoDirector.setText("");
+        txtDirector.setText("");
+        txtNacimiento.setText("");
+        txtNacionalidad.setText("");
+
+        JOptionPane.showMessageDialog(null, "Agregado con exito");
+        try {
+            llenarTablaDirector();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "no logra agregar");
+        }
+    }//GEN-LAST:event_btnAgregar3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -732,15 +931,25 @@ public class Cine_App extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAgregar2;
+    private javax.swing.JButton btnAgregar3;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar2;
+    private javax.swing.JButton btnBuscar3;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEliminar2;
+    private javax.swing.JButton btnEliminar3;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnModificar2;
+    private javax.swing.JButton btnModificar3;
     private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnMostrar2;
+    private javax.swing.JButton btnMostrar3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -754,14 +963,21 @@ public class Cine_App extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable tbnMuestraDirector;
     private javax.swing.JTable tbnMuestraGenero;
     private javax.swing.JTable tbnMuestraPeliculas;
+    private javax.swing.JTextField txtApellidoDirector;
+    private javax.swing.JTextField txtDirector;
     private javax.swing.JTextField txtEstreno;
     private javax.swing.JTextField txtFilmacion;
     private javax.swing.JTextField txtGenero;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNacimiento;
+    private javax.swing.JTextField txtNacionalidad;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNombreDirector;
     private javax.swing.JTextField txtNombreGenero;
     private javax.swing.JTextField txtPresupuesto;
     // End of variables declaration//GEN-END:variables
