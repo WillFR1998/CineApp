@@ -14,6 +14,23 @@ import java.sql.ResultSet;
 public class genero {
     private int id_genero;
     private String nombre;
+    
+  
+    public genero(int id_genero){
+        
+    }
+    public genero(){
+        
+    }
+    public genero(int id_genero,String nombre){
+        setId_genero(id_genero);
+        setNombre(nombre);
+    }
+    public genero(String nombre){
+        
+        
+    }
+   
 
     /**
      * @return the id_genero
@@ -79,7 +96,8 @@ public class genero {
      }
      
      
-     public void Eliminar() throws  Exception{
+     public void EliminarGenero() throws  Exception{
+         System.out.println(getId_genero());
          try {
          cn.conectar();
          cn.UID("DELETE FROM genero WHERE id_genero='" +getId_genero()+ "'");

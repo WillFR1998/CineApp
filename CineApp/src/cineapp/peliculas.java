@@ -19,6 +19,7 @@ public class peliculas {
     private double presupuesto;
     
     
+    
     public peliculas(int id_peliculas){
         setId_peliculas(id_peliculas);
     }
@@ -207,6 +208,9 @@ public class peliculas {
          
          }
          return d;
+     }
+     public void Eliminarpel_gen(){
+         
      }
      
 }

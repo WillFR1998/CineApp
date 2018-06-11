@@ -23,17 +23,25 @@ public class Cine_App extends javax.swing.JFrame {
     peliculas est = new peliculas();
 
     JTableHeader tHeadPeliculas;
+    JTableHeader tHeadGenero;
     DefaultTableModel modeloPeliculas = new DefaultTableModel();
+     DefaultTableModel modeloGenero = new DefaultTableModel();
 
     public Cine_App() throws Exception {
         initComponents();
         tHeadPeliculas = tbnMuestraPeliculas.getTableHeader();
         modeloPeliculas.addColumn("ID Pelicula");
         modeloPeliculas.addColumn("Nombre");
+        
         modeloPeliculas.addColumn("Año de Filmación");
         modeloPeliculas.addColumn("Estreno");
         modeloPeliculas.addColumn("Presupuesto");
         tbnMuestraPeliculas.setModel(modeloPeliculas);
+        
+        tHeadGenero = tbnMuestraGenero.getTableHeader();
+        modeloGenero.addColumn("ID Género");
+        modeloGenero.addColumn("Nombre del Género");
+        tbnMuestraGenero.setModel(modeloGenero);
 
     }
 
@@ -61,11 +69,40 @@ public class Cine_App extends javax.swing.JFrame {
             tbnMuestraPeliculas.setModel(modeloPeliculas);
         }
     }
+    public final void llenarTablaGenero() throws Exception {
+        genero gen = new genero();
+        limpiarTabla2();
+        ResultSet rs = null;
+        rs = gen.Obtener();
+        if (!rs.isBeforeFirst()) {
+            System.out.println("No existe");
+        } else {
+            try {
+                while (rs.next()) {
+                    int id_genero = rs.getInt("id_genero");
+                    String Nombre = rs.getString("nombre");
+                    
+                    modeloGenero.addRow(new String[]{Integer.toString(id_genero), Nombre});
+
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            tbnMuestraGenero.setModel(modeloGenero);
+        }
+    }
+    
 
     public void limpiarTabla() {
         for (int i = 0; i < tbnMuestraPeliculas.getRowCount(); i++) {
             modeloPeliculas.removeRow(i);
             i -= 1;
+        }
+    }
+    public void limpiarTabla2() {
+        for (int a = 0; a < tbnMuestraGenero.getRowCount(); a++) {
+            modeloGenero.removeRow(a);
+            a -= 1;
         }
     }
 
@@ -100,6 +137,17 @@ public class Cine_App extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnMostrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        txtGenero = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtNombreGenero = new javax.swing.JTextField();
+        btnAgregar2 = new javax.swing.JButton();
+        btnEliminar2 = new javax.swing.JButton();
+        btnModificar2 = new javax.swing.JButton();
+        btnBuscar2 = new javax.swing.JButton();
+        btnMostrar2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbnMuestraGenero = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -180,7 +228,7 @@ public class Cine_App extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(21, Short.MAX_VALUE))
+                        .addContainerGap(15, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -272,15 +320,108 @@ public class Cine_App extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Peliculas", jPanel1);
 
+        jLabel8.setText("ID Genero: ");
+
+        jLabel9.setText("Nombre del Genero: ");
+
+        btnAgregar2.setText("Agregar");
+        btnAgregar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregar2MouseClicked(evt);
+            }
+        });
+
+        btnEliminar2.setText("Eliminar");
+        btnEliminar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminar2MouseClicked(evt);
+            }
+        });
+
+        btnModificar2.setText("Modificar");
+
+        btnBuscar2.setText("Buscar");
+
+        btnMostrar2.setText("Mostrar");
+        btnMostrar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMostrar2MouseClicked(evt);
+            }
+        });
+
+        tbnMuestraGenero.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tbnMuestraGenero);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnMostrar2)
+                .addGap(151, 151, 151))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnModificar2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jLabel8)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNombreGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(155, 155, 155)
+                                .addComponent(btnAgregar2)))
+                        .addGap(67, 67, 67)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEliminar2)
+                            .addComponent(btnBuscar2)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 398, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgregar2)
+                            .addComponent(btnEliminar2))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnModificar2)
+                    .addComponent(btnBuscar2))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtNombreGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addComponent(btnMostrar2)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Generos", jPanel2);
@@ -289,11 +430,11 @@ public class Cine_App extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addGap(0, 639, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 398, Short.MAX_VALUE)
+            .addGap(0, 631, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Directores", jPanel3);
@@ -308,7 +449,7 @@ public class Cine_App extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -440,6 +581,68 @@ public class Cine_App extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tbnMuestraPeliculasMouseClicked
 
+    private void btnMostrar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrar2MouseClicked
+ try {
+            llenarTablaGenero();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No logra llenar la tabla");
+        }
+
+
+    }//GEN-LAST:event_btnMostrar2MouseClicked
+
+    private void btnAgregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregar2MouseClicked
+         int id_genero = 0;
+        String nombre = txtNombreGenero.getText().toUpperCase();
+        
+        genero gn = new genero();
+        gn.setNombre(nombre);
+        try {
+            gn.Agregar();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txtNombreGenero.setText("");
+        txtId.setText("");
+        
+        JOptionPane.showMessageDialog(null, "Agregado con exito");
+        try {
+            llenarTablaGenero();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "no logra agregar");
+        }
+    }//GEN-LAST:event_btnAgregar2MouseClicked
+
+    private void btnEliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminar2MouseClicked
+       TableModel tablemodel1 = tbnMuestraPeliculas.getModel();
+        try {
+            genero ctp = new genero(Integer.parseInt(modeloGenero.getValueAt(tbnMuestraGenero.getSelectedRow(), 0).toString()));
+            System.out.println("lo hizo1");
+
+            ResultSet rs;
+            int decide = JOptionPane.showConfirmDialog(null, "Desea borrar la pelicula:");// +modeloEstudiante.getValueAt(tblMuestraMaterias.getSelectedRow(), 1));
+            System.out.println("lo hizo2");
+            if (decide == 0) {
+                try {
+                    ctp.EliminarGenero();
+                    System.out.println("Elimino la pelicula");
+                    limpiarTabla();
+                    llenarTabla();
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("No pudo eliminar la pelicula");
+                }
+
+            }
+
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No pudo eliminar el estudiante parte 1");
+        }
+    }//GEN-LAST:event_btnEliminar2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -482,10 +685,15 @@ public class Cine_App extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAgregar2;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar2;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminar2;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnModificar2;
     private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btnMostrar2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -493,16 +701,22 @@ public class Cine_App extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable tbnMuestraGenero;
     private javax.swing.JTable tbnMuestraPeliculas;
     private javax.swing.JTextField txtEstreno;
     private javax.swing.JTextField txtFilmacion;
+    private javax.swing.JTextField txtGenero;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNombreGenero;
     private javax.swing.JTextField txtPresupuesto;
     // End of variables declaration//GEN-END:variables
 }
