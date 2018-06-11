@@ -100,7 +100,7 @@ public class director {
     public void setNacimiento(String nacimiento) {
         SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
         try{
-            nacimiento=this.txtNacimiento.getText();
+          
             this.nacimiento = formato.parse(nacimiento);
             
         }catch(Exception e){
