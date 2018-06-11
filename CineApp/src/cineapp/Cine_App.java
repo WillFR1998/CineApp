@@ -341,6 +341,11 @@ public class Cine_App extends javax.swing.JFrame {
         btnModificar2.setText("Modificar");
 
         btnBuscar2.setText("Buscar");
+        btnBuscar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscar2MouseClicked(evt);
+            }
+        });
 
         btnMostrar2.setText("Mostrar");
         btnMostrar2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -642,6 +647,21 @@ public class Cine_App extends javax.swing.JFrame {
             System.out.println("No pudo eliminar el estudiante parte 1");
         }
     }//GEN-LAST:event_btnEliminar2MouseClicked
+
+    private void btnBuscar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscar2MouseClicked
+        int id_genero = Integer.parseInt(txtGenero.getText());
+        genero ctp = new genero(id_genero);
+
+        try {
+            ctp.BuscarGenero();
+            JOptionPane.showMessageDialog(null, "Nombre de pelicula: " + ctp.getNombre());
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+
+
+    }//GEN-LAST:event_btnBuscar2MouseClicked
 
     /**
      * @param args the command line arguments

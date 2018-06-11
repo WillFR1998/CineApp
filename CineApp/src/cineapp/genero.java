@@ -17,7 +17,7 @@ public class genero {
     
   
     public genero(int id_genero){
-        
+        setId_genero(id_genero);
     }
     public genero(){
         
@@ -27,6 +27,7 @@ public class genero {
         setNombre(nombre);
     }
     public genero(String nombre){
+         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         
         
     }
@@ -96,8 +97,7 @@ public class genero {
      }
      
      
-     public void EliminarGenero() throws  Exception{
-         System.out.println(getId_genero());
+     public void EliminarGenero() throws  Exception{ 
          try {
          cn.conectar();
          cn.UID("DELETE FROM genero WHERE id_genero='" +getId_genero()+ "'");
@@ -110,17 +110,33 @@ public class genero {
      }
      
      
-     public ResultSet BuscarGenero(int id_genero) throws Exception{
+     public void BuscarGenero() throws Exception{
          ResultSet d=null;
          try {
          cn.conectar();
-         d=cn.getValores("SELECT id_genero,nombre FROM genero WHERE id_genero='"+getId_genero()+"'");    
+         
+         d=cn.getValores("SELECT id_genero,nombre FROM genero WHERE id_genero='"+getId_genero()+"'");  
+          if (!d.isBeforeFirst()) {
+            System.out.println("No existe");
+        } else {
+            try {
+                while (d.next()) {
+                    
+                    this.setNombre(d.getString("nombre"));   
+                    System.out.println("Nombre de Genero: "+this.getNombre());
+
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            
+        }
          } catch (Exception e) {
              System.out.println("Error: "+e.getMessage());
          }finally{
          cn.desconectar();
          }
-         return d;
+         
      }
      
      public ResultSet Obtener() throws Exception{
