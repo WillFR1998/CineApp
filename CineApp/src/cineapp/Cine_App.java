@@ -919,7 +919,8 @@ public class Cine_App extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Cine_App().setVisible(true);
+                    /*new Cine_App().setVisible(true);*/
+                    new login().setVisible(true);
                 } catch (Exception ex) {
                     java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
                 }
