@@ -122,7 +122,7 @@ public class login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String user=usuario.getText();
         String pass=contraseña.getText();
-        if((user.equals("Will") && pass.equals("123456")) || (user.equals("Sigfridm") && pass.equals("Progra2"))){
+        if((user.equals("Will") && pass.equals("123456")) || (user.equals("Sigfridm") && pass.equals("Progra2")) || (user.equals("Zamora") && pass.equals("Programacion")) ){
             try {
                 Cine_App pp= new Cine_App();
                 pp.setVisible(true);
