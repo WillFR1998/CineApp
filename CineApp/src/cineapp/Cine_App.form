@@ -53,6 +53,9 @@
       </Properties>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="Tab_Directores">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Tab_DirectoresMouseClicked"/>
+      </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -322,6 +325,7 @@
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="btnBuscarMouseDragged"/>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnBuscarMouseClicked"/>
               </Events>
             </Component>

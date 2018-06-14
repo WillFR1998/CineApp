@@ -19,26 +19,8 @@ public class director {
     private String apellido;
     private Date nacimiento;
     private String nacionalidad;
+ 
 
-    
-    
-    public director(int id_director){
-        setId_director(id_director);
-        
-    }
-    public director(){
-        
-    }
-    public director(int id_director,String nombre,String apellido,String nacimiento,String nacionalidad){
-        setId_director(id_director);
-        setNombre(nombre);
-        setApellido(apellido);
-        setNacimiento(nacimiento);
-        setNacionalidad(nacionalidad);
-    }
-    director(String nombre,String apellido,String nacimiento,String nacionalidad){
-        
-    }
     /**
      * @return the id_director
      */
@@ -100,9 +82,7 @@ public class director {
     public void setNacimiento(String nacimiento) {
         SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
         try{
-          
             this.nacimiento = formato.parse(nacimiento);
-            
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -126,7 +106,7 @@ public class director {
        
     }
     conexion cn=new conexion();
-    public void AgregarDirector() throws Exception{
+    public void Agregar() throws Exception{
 
          try {
             cn.conectar();

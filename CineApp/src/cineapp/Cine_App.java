@@ -32,7 +32,7 @@ public class Cine_App extends javax.swing.JFrame {
 
     public Cine_App() throws Exception {
         initComponents();
-         tHeadPeliculas = tbnMuestraPeliculas.getTableHeader();
+        tHeadPeliculas = tbnMuestraPeliculas.getTableHeader();
         modeloPeliculas.addColumn("ID Pelicula");
         modeloPeliculas.addColumn("Nombre");
         modeloPeliculas.addColumn("ID Genero");
@@ -40,7 +40,7 @@ public class Cine_App extends javax.swing.JFrame {
         modeloPeliculas.addColumn("Estreno");
         modeloPeliculas.addColumn("Presupuesto");
         tbnMuestraPeliculas.setModel(modeloPeliculas);
-        
+
         tHeadGenero = tbnMuestraGenero.getTableHeader();
         modeloGenero.addColumn("ID Género");
         modeloGenero.addColumn("Nombre del Género");
@@ -101,6 +101,7 @@ public class Cine_App extends javax.swing.JFrame {
             i -= 1;
         }
     }
+
     public void limpiarTabla2() {
         for (int i = 0; i < tbnMuestraGenero.getRowCount(); i++) {
             modeloGenero.removeRow(i);
@@ -165,6 +166,12 @@ public class Cine_App extends javax.swing.JFrame {
 
         jLabel1.setText("Registro de Peliculas");
 
+        Tab_Directores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_DirectoresMouseClicked(evt);
+            }
+        });
+
         jLabel2.setText("ID: ");
 
         jLabel3.setText("Nombre: ");
@@ -217,6 +224,11 @@ public class Cine_App extends javax.swing.JFrame {
         });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseDragged(evt);
+            }
+        });
         btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnBuscarMouseClicked(evt);
@@ -656,17 +668,15 @@ public class Cine_App extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-
-        int id_peliculas = Integer.parseInt(txtId.getText());
-        peliculas ctp = new peliculas(id_peliculas);
+        int id_genero = Integer.parseInt(txtGenero.getText());
+        genero ctp = new genero(id_genero);
 
         try {
-            ctp.BuscarPelicula();
-            JOptionPane.showMessageDialog(null, "Nombre de pelicula: " + ctp.getNombre());
+            ctp.BuscarGenero();
+            JOptionPane.showMessageDialog(null, "Nombre de genero: " + ctp.getNombre());
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMouseClicked
@@ -757,7 +767,6 @@ public class Cine_App extends javax.swing.JFrame {
             System.out.println("Error: " + ex.getMessage());
         }
 
-
     }//GEN-LAST:event_btnBuscar2MouseClicked
 
     private void btnModificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificar2MouseClicked
@@ -821,7 +830,7 @@ public class Cine_App extends javax.swing.JFrame {
 
         DefaultTableModel myModel = (DefaultTableModel) this.Tb_Pelic_Resul_g.getModel();
         int rowCount = this.Tb_Pelic_Resul_g.getRowCount();
-        for (int i = rowCount - 1; i >= 0; i--){
+        for (int i = rowCount - 1; i >= 0; i--) {
             myModel.removeRow(i);
         }
         Connection conexion = null;
@@ -831,24 +840,94 @@ public class Cine_App extends javax.swing.JFrame {
         conn.setV_server("localhost");
         conn.setV_db("cine_app");
         conexion = conn.ConexionDB();
-        String [] arreglo = new String[4];
+        String[] arreglo = new String[4];
         Statement stmt = null;
-        String queryUser = "SELECT nombre, anyo_filmacion, estreno, presupuesto FROM peliculas WHERE id_peliculas = (SELECT id_pel FROM pel_gen WHERE id_gen = (SELECT id_genero FROM genero WHERE nombre = '"+ valor +"'))";
-        try{
+        String queryUser = "SELECT nombre, anyo_filmacion, estreno, presupuesto FROM peliculas WHERE id_peliculas = (SELECT id_pel FROM pel_gen WHERE id_gen = (SELECT id_genero FROM genero WHERE nombre = '" + valor + "'))";
+        try {
             stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(queryUser);
-            while(rs.next()){
+            while (rs.next()) {
                 arreglo[0] = rs.getString("nombre");
                 arreglo[1] = rs.getString("anyo_filmacion");
                 arreglo[2] = rs.getString("estreno");
                 arreglo[3] = rs.getString("presupuesto");
                 myModel.addRow(arreglo);
             }
-        }
-        catch(SQLException ex) {
+        } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_Tb_GeneroMouseClicked
+
+    private void btnBuscarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseDragged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarMouseDragged
+
+    private void Tab_DirectoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_DirectoresMouseClicked
+         refrescarTablaDir();
+        refrescarTablaGen();
+
+
+    }//GEN-LAST:event_Tab_DirectoresMouseClicked
+    public void refrescarTablaDir() {
+        DefaultTableModel myModel = (DefaultTableModel) this.Tb_Direct_Filt.getModel();
+        int rowCount = this.Tb_Direct_Filt.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            myModel.removeRow(i);
+        }
+        Connection conexion = null;
+        Conectar conn = new Conectar();
+        conn.setV_user("root");
+        conn.setV_password("123456");
+        conn.setV_server("localhost");
+        conn.setV_db("cine_app");
+        conexion = conn.ConexionDB();
+        String[] arreglo = new String[4];
+        Statement stmt = null;
+        String queryUser = "SELECT nombre, apellido, nacimiento, nacionalidad FROM director;";
+        try {
+            stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery(queryUser);
+            while (rs.next()) {
+                arreglo[0] = rs.getString("nombre");
+                arreglo[1] = rs.getString("apellido");
+                arreglo[2] = rs.getString("nacimiento");
+                arreglo[3] = rs.getString("nacionalidad");
+                myModel.addRow(arreglo);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void refrescarTablaGen() {
+        DefaultTableModel myModel = (DefaultTableModel) this.Tb_Genero.getModel();
+        int rowCount = this.Tb_Genero.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            myModel.removeRow(i);
+        }
+        Connection conexion = null;
+        Conectar conn = new Conectar();
+        conn.setV_user("root");
+        conn.setV_password("123456");
+        conn.setV_server("localhost");
+        conn.setV_db("cine_app");
+        conexion = conn.ConexionDB();
+        String[] arreglo = new String[1];
+        Statement stmt = null;
+        String queryUser = "SELECT nombre FROM genero;";
+        try {
+            stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery(queryUser);
+            while (rs.next()) {
+                arreglo[0] = rs.getString("nombre");
+                myModel.addRow(arreglo);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Cine_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     /**
      * @param args the command line arguments

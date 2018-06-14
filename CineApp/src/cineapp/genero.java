@@ -14,8 +14,8 @@ import java.sql.ResultSet;
 public class genero {
     private int id_genero;
     private String nombre;
+     
     
-  
     public genero(int id_genero){
         setId_genero(id_genero);
     }
@@ -23,13 +23,9 @@ public class genero {
         
     }
     public genero(int id_genero,String nombre){
-        setId_genero(id_genero);
-        setNombre(nombre);
+        
     }
     public genero(String nombre){
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-        
     }
    
 
@@ -86,7 +82,7 @@ public class genero {
      public void ModificarGenero() throws Exception{
          try {
          cn.conectar();
-         cn.UID("UPDATE genero set nombre=\""+getNombre()+"\" where id_genero="+getId_genero()+"; ");
+         cn.UID("UPDATE genero set nombre=\""+getNombre()+"; ");
          cn.desconectar();   
          } catch (Exception e) {
              System.out.println("Error: "+e.getMessage());
@@ -97,7 +93,7 @@ public class genero {
      }
      
      
-     public void EliminarGenero() throws  Exception{ 
+     public void EliminarGenero() throws  Exception{
          try {
          cn.conectar();
          cn.UID("DELETE FROM genero WHERE id_genero='" +getId_genero()+ "'");
@@ -111,10 +107,10 @@ public class genero {
      
      
      public void BuscarGenero() throws Exception{
+        
          ResultSet d=null;
          try {
          cn.conectar();
-         
          d=cn.getValores("SELECT id_genero,nombre FROM genero WHERE id_genero='"+getId_genero()+"'");  
           if (!d.isBeforeFirst()) {
             System.out.println("No existe");
@@ -136,6 +132,7 @@ public class genero {
          }finally{
          cn.desconectar();
          }
+        
          
      }
      
